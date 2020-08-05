@@ -1,4 +1,4 @@
-import querystring from "querystring";
+querystring = require('querystring');
 
 var twilio = require('twilio')
 const { TWILIO_SID } = process.env;
