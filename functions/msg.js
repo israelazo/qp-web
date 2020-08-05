@@ -1,6 +1,6 @@
-querystring = require('querystring');
+const querystring = require('querystring');
+const twilio = require('twilio')
 
-var twilio = require('twilio')
 const { TWILIO_SID } = process.env;
 const { TWILIO_TOKEN } = process.env;
 
@@ -19,6 +19,8 @@ async function sendMessage(to, text)
 }
 
 exports.handler = async (event, context) => {
+
+  console.log("sending message");
 
   const params = querystring.parse(event.body);
   const to = params.to;
