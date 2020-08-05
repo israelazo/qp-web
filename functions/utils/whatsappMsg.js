@@ -3,13 +3,9 @@ const twilio = require('twilio');
 const { TWILIO_SID } = process.env;
 const { TWILIO_TOKEN } = process.env;
 
-var client = new twilio(TWILIO_SID, TWILIO_TOKEN);
-
-console.log("twilio", TWILIO_SID)
-
 async function sendMessage(to, text)
 {
-    console.log("to", to);
+    var client = new twilio(TWILIO_SID, TWILIO_TOKEN);
 
     return client.messages.create({
         body: text,
@@ -19,4 +15,4 @@ async function sendMessage(to, text)
     .then((message) => console.log(message.sid));
 }
 
-module.exports = sendMessage;
+module.exports = { sendMessage };
