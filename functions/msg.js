@@ -8,7 +8,7 @@ var client = new twilio(TWILIO_SID, TWILIO_TOKEN);
 
 async function sendMessage(to, text)
 {
-    // console.log(to)
+    console.log("to", to);
 
     return client.messages.create({
         body: text,
@@ -27,7 +27,7 @@ exports.handler = async (event, context) => {
   const text = params.text;
 
   await sendMessage(to, text).then(response => {
-    console.log(response);
+    console.log("response", response);
     return {
       statusCode: 200,
       body: "Mensaje enviado"
