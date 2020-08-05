@@ -1,7 +1,6 @@
 const twilio = require('twilio');
 
-const { TWILIO_SID } = process.env;
-const { TWILIO_TOKEN } = process.env;
+const { TWILIO_SID, TWILIO_TOKEN } = process.env;
 
 async function sendMessage(to, text)
 {

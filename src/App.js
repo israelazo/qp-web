@@ -306,7 +306,7 @@ export default class App extends Component {
     return (
       <div className='app'>
 
-        <AppHeader />
+        {/* <AppHeader />
 
         <div className='todo-list'>
           <h2>
@@ -336,7 +336,7 @@ export default class App extends Component {
           showMenu={this.state.showMenu}
           handleModalClose={this.closeModal}
           handleClearCompleted={this.clearCompleted}
-        />
+        /> */}
       </div>
     )
   }
