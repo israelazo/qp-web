@@ -1,6 +1,10 @@
 const querystring = require('querystring');
+const faunadb = require('faunadb');
+const moment = require('moment');
+
 const whatsappClient = require('./utils/whatsappMsg');
-const faunadb = require('faunadb')
+// const client = require('./client/client');
+
 const q = faunadb.query;
 
 exports.handler = async (event, context) => {
@@ -10,10 +14,13 @@ exports.handler = async (event, context) => {
   const params = querystring.parse(event.body);
   const to = params.to;
   const text = params.text;
+  const key = params.key;
 
   const dbclient = new faunadb.Client({
     secret: process.env.FAUNADB_SERVER_SECRET
   })
+
+  // const qpclient = await client.getClientByKey(dbclient, key);
 
   const msgItem = {
     data: {
@@ -21,29 +28,17 @@ exports.handler = async (event, context) => {
       text: text,
       twilioID: null,
       status: 0,
-      clientID: '1234567',
-      dateSent: new Date(),
+      clientRef: key,
+      dateSent: moment().toISOString(),
     }
   }
 
-  const response = await dbclient.query(q.Create(q.Ref('classes/message'), msgItem))
-
-  console.log(response);
-
-  // .then((response) => {
-  //   console.log('success', response)
-  //   /* Success! return the response with statusCode 200 */
-  //   return response;
-  // }).catch((error) => {
-  //   console.log('error', error)
-  //   /* Error! return the error with statusCode 400 */
-  //   return error;
-  // })
-
-  return await whatsappClient.sendMessage(to, text).then(response => {
-    return {
-      statusCode: 200,
-      body: "Mensaje enviado"
-    };
+  await dbclient.query(q.Create(q.Ref('classes/message'), msgItem)).then(() => {
+    return await whatsappClient.sendMessage(to, text).then(() => {
+      return {
+        statusCode: 200,
+        body: "Message sent"
+      };
+    })
   })
 };

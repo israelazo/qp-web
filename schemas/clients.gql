@@ -1,0 +1,4 @@
+type Client @collection(name: "clients") {
+  name: String!
+  key: String! 
+}
